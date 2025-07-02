@@ -1,38 +1,409 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Courier New', monospace;
+  background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 25%, #fd79a8 50%, #a29bfe 75%, #74b9ff 100%);
+  color: #2d3436;
+  overflow-x: hidden;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+
 .App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
   min-height: 100vh;
+  position: relative;
+}
+
+.pixel-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle at 25% 25%, #ff7675 2px, transparent 2px),
+    radial-gradient(circle at 75% 75%, #74b9ff 2px, transparent 2px),
+    radial-gradient(circle at 50% 50%, #55a3ff 1px, transparent 1px);
+  background-size: 40px 40px, 60px 60px, 20px 20px;
+  opacity: 0.1;
+  z-index: -1;
+  animation: pixelFloat 10s ease-in-out infinite;
+}
+
+@keyframes pixelFloat {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+.hero-section {
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  background: linear-gradient(45deg, 
+    rgba(255, 234, 167, 0.9) 0%, 
+    rgba(250, 177, 160, 0.9) 25%, 
+    rgba(253, 121, 168, 0.9) 50%, 
+    rgba(162, 155, 254, 0.9) 75%, 
+    rgba(116, 185, 255, 0.9) 100%);
+  border-bottom: 8px solid #2d3436;
+  box-shadow: inset 0 0 50px rgba(255, 255, 255, 0.3);
+}
+
+.hero-content {
+  text-align: center;
+  max-width: 800px;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 40px;
+  border-radius: 20px;
+  border: 4px solid #2d3436;
+  box-shadow: 8px 8px 0px #636e72;
+}
+
+.pixel-title {
+  margin-bottom: 30px;
+}
+
+.title-main {
+  display: block;
+  font-size: 3.5rem;
+  font-weight: 900;
+  color: #2d3436;
+  text-shadow: 4px 4px 0px #ddd, 8px 8px 0px #bbb;
+  letter-spacing: 4px;
+  margin-bottom: 10px;
+  font-family: 'Courier New', monospace;
+}
+
+.title-sub {
+  display: block;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #6c5ce7;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-shadow: 2px 2px 0px rgba(108, 92, 231, 0.3);
+}
+
+.hero-description {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 30px;
+  color: #2d3436;
+  font-weight: 500;
+}
+
+.overall-stats {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.stat-pixel {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  padding: 20px;
+  background: linear-gradient(45deg, #ff7675, #fd79a8);
+  border-radius: 15px;
+  border: 3px solid #2d3436;
+  box-shadow: 4px 4px 0px #636e72;
+  min-width: 140px;
 }
 
-.App-link {
-  color: #61dafb;
+.stat-label {
+  font-size: 0.9rem;
+  color: #2d3436;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: bold;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.stat-value {
+  font-size: 2rem;
+  font-weight: 900;
+  color: #ffffff;
+  text-shadow: 2px 2px 0px #2d3436;
+}
+
+
+.skills-section {
+  padding: 80px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.section-title {
+  font-size: 2.5rem;
+  text-align: center;
+  margin-bottom: 50px;
+  color: #2d3436;
+  font-weight: 900;
+  text-shadow: 3px 3px 0px #ddd;
+  font-family: 'Courier New', monospace;
+}
+
+.pixel-text {
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 30px;
+}
+
+.skill-card {
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  border-radius: 20px;
+  padding: 25px;
+  text-align: center;
+  border: 4px solid #2d3436;
+  box-shadow: 6px 6px 0px #636e72;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.pixel-card:hover {
+  transform: translateY(-5px) translateX(-2px);
+  box-shadow: 8px 8px 0px #636e72;
+}
+
+.skill-icon {
+  font-size: 3rem;
+  margin-bottom: 15px;
+  display: block;
+  filter: drop-shadow(2px 2px 0px rgba(45, 52, 54, 0.3));
+}
+
+.skill-card h3 {
+  font-size: 1.3rem;
+  margin-bottom: 10px;
+  color: #2d3436;
+  font-weight: 700;
+  font-family: 'Courier New', monospace;
+}
+
+.skill-card p {
+  color: #636e72;
+  line-height: 1.4;
+  margin-bottom: 15px;
+  font-weight: 500;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 12px;
+  background: #ddd;
+  border-radius: 6px;
+  border: 2px solid #2d3436;
+  margin-bottom: 15px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(45deg, #00b894, #00cec9);
+  border-radius: 4px;
+  transition: width 0.5s ease;
+  position: relative;
+}
+
+.progress-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 2px,
+    rgba(255, 255, 255, 0.3) 2px,
+    rgba(255, 255, 255, 0.3) 4px
+  );
+}
+
+.skill-stats {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #2d3436;
+}
+
+.level-up-btn {
+  background: linear-gradient(45deg, #fd79a8, #fdcb6e);
+  color: #2d3436;
+  border: 3px solid #2d3436;
+  border-radius: 25px;
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-family: 'Courier New', monospace;
+  box-shadow: 3px 3px 0px #636e72;
+}
+
+.level-up-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 4px 4px 0px #636e72;
+  background: linear-gradient(45deg, #e84393, #f39c12);
+}
+
+.level-up-btn:active {
+  transform: translateY(0px);
+  box-shadow: 2px 2px 0px #636e72;
+}
+
+.level-up-effect {
+  animation: levelUpPulse 2s ease-in-out;
+  border-color: #00b894 !important;
+  box-shadow: 0 0 20px #00b894, 6px 6px 0px #636e72 !important;
+}
+
+@keyframes levelUpPulse {
+  0%, 100% { 
+    transform: scale(1) translateY(0px); 
+    filter: brightness(1);
   }
-  to {
-    transform: rotate(360deg);
+  25% { 
+    transform: scale(1.05) translateY(-5px); 
+    filter: brightness(1.2);
+  }
+  50% { 
+    transform: scale(1.1) translateY(-10px); 
+    filter: brightness(1.4);
+  }
+  75% { 
+    transform: scale(1.05) translateY(-5px); 
+    filter: brightness(1.2);
+  }
+}
+
+.level-up-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.level-up-animation {
+  background: linear-gradient(45deg, #ffeaa7, #fab1a0, #fd79a8);
+  padding: 50px;
+  border-radius: 30px;
+  border: 6px solid #2d3436;
+  box-shadow: 10px 10px 0px #636e72;
+  text-align: center;
+  animation: levelUpBounce 2s ease-in-out;
+}
+
+.level-up-animation h2 {
+  font-size: 3rem;
+  color: #2d3436;
+  margin-bottom: 20px;
+  text-shadow: 3px 3px 0px #fff;
+  font-family: 'Courier New', monospace;
+  letter-spacing: 3px;
+}
+
+.sparkles {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  animation: sparkleRotate 1s ease-in-out infinite;
+}
+
+.level-up-animation p {
+  font-size: 1.2rem;
+  color: #2d3436;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes levelUpBounce {
+  0% { 
+    transform: scale(0.5) rotate(-10deg); 
+    opacity: 0;
+  }
+  50% { 
+    transform: scale(1.1) rotate(5deg); 
+    opacity: 1;
+  }
+  100% { 
+    transform: scale(1) rotate(0deg); 
+    opacity: 1;
+  }
+}
+
+@keyframes sparkleRotate {
+  0%, 100% { transform: rotate(0deg) scale(1); }
+  50% { transform: rotate(180deg) scale(1.2); }
+}
+
+@media (max-width: 768px) {
+  .title-main {
+    font-size: 2.5rem;
+  }
+  
+  .title-sub {
+    font-size: 1.1rem;
+  }
+  
+  .hero-content {
+    padding: 30px 20px;
+  }
+  
+  .overall-stats {
+    gap: 20px;
+  }
+  
+  .stat-pixel {
+    min-width: 120px;
+    padding: 15px;
+  }
+  
+  .skills-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .section-title {
+    font-size: 2rem;
+  }
+  
+  .level-up-animation {
+    padding: 30px 20px;
+    margin: 20px;
+  }
+  
+  .level-up-animation h2 {
+    font-size: 2rem;
   }
 }

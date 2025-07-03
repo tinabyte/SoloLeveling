@@ -8,10 +8,13 @@ function App() {
     networking: { level: 1, connections: 5, xp: 0, maxXp: 100 },
     bayArea: { level: 1, placesVisited: 3, xp: 0, maxXp: 100 },
     books: { level: 1, booksRead: 2, xp: 0, maxXp: 100 },
-    leetcode: { level: 1, problemsSolved: 15, xp: 0, maxXp: 100 }
+    leetcode: { level: 1, problemsSolved: 15, xp: 0, maxXp: 100 },
+    tasks: { level: 1, completed: 0, xp: 0, maxXp: 100, taskList: [] }
   });
 
   const [levelUpEffect, setLevelUpEffect] = useState(null);
+  const [newTask, setNewTask] = useState('');
+  const [showTaskInput, setShowTaskInput] = useState(false);
 
   const playLevelUpSound = () => {
     const audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -63,6 +66,11 @@ function App() {
           case 'leetcode':
             currentStat.problemsSolved += 5;
             break;
+          case 'tasks':
+            currentStat.completed += 1;
+            break;
+          default:
+            break;
         }
         
         setLevelUpEffect(skill);
@@ -75,6 +83,47 @@ function App() {
     });
     
     playLevelUpSound();
+  };
+
+  const addTask = () => {
+    if (newTask.trim()) {
+      setStats(prev => ({
+        ...prev,
+        tasks: {
+          ...prev.tasks,
+          taskList: [...prev.tasks.taskList, { id: Date.now(), text: newTask.trim(), completed: false }]
+        }
+      }));
+      setNewTask('');
+      setShowTaskInput(false);
+    }
+  };
+
+  const completeTask = (taskId) => {
+    setStats(prev => {
+      const updatedTasks = prev.tasks.taskList.map(task =>
+        task.id === taskId ? { ...task, completed: true } : task
+      );
+      const newStats = {
+        ...prev,
+        tasks: {
+          ...prev.tasks,
+          taskList: updatedTasks
+        }
+      };
+      return newStats;
+    });
+    levelUp('tasks');
+  };
+
+  const deleteTask = (taskId) => {
+    setStats(prev => ({
+      ...prev,
+      tasks: {
+        ...prev.tasks,
+        taskList: prev.tasks.taskList.filter(task => task.id !== taskId)
+      }
+    }));
   };
 
   return (
@@ -98,7 +147,7 @@ function App() {
             </div>
             <div className="stat-pixel">
               <span className="stat-label">Areas Mastered</span>
-              <span className="stat-value">{Object.values(stats).filter(stat => stat.level >= 5).length}/6</span>
+              <span className="stat-value">{Object.values(stats).filter(stat => stat.level >= 5).length}/7</span>
             </div>
           </div>
         </div>
@@ -200,6 +249,58 @@ function App() {
               <span>{stats.leetcode.xp}/{stats.leetcode.maxXp} XP</span>
             </div>
             <button className="level-up-btn" onClick={() => levelUp('leetcode')}>
+              Level Up! 🚀
+            </button>
+          </div>
+
+          <div className={`skill-card pixel-card ${levelUpEffect === 'tasks' ? 'level-up-effect' : ''}`}>
+            <div className="skill-icon">📋</div>
+            <h3>Daily Quests</h3>
+            <p>Tasks Completed: {stats.tasks.completed}</p>
+            <div className="progress-bar">
+              <div className="progress-fill" style={{width: `${(stats.tasks.xp / stats.tasks.maxXp) * 100}%`}}></div>
+            </div>
+            <div className="skill-stats">
+              <span>Level {stats.tasks.level}</span>
+              <span>{stats.tasks.xp}/{stats.tasks.maxXp} XP</span>
+            </div>
+            
+            <div className="task-management">
+              {!showTaskInput ? (
+                <button className="add-task-btn" onClick={() => setShowTaskInput(true)}>
+                  Add Quest ⚔️
+                </button>
+              ) : (
+                <div className="task-input-container">
+                  <input
+                    type="text"
+                    value={newTask}
+                    onChange={(e) => setNewTask(e.target.value)}
+                    placeholder="Enter your quest..."
+                    className="task-input"
+                    onKeyPress={(e) => e.key === 'Enter' && addTask()}
+                  />
+                  <button className="confirm-task-btn" onClick={addTask}>✓</button>
+                  <button className="cancel-task-btn" onClick={() => {setShowTaskInput(false); setNewTask('');}}>✗</button>
+                </div>
+              )}
+              
+              <div className="task-list">
+                {stats.tasks.taskList.map(task => (
+                  <div key={task.id} className={`task-item ${task.completed ? 'completed' : ''}`}>
+                    <span className="task-text">{task.text}</span>
+                    <div className="task-actions">
+                      {!task.completed && (
+                        <button className="complete-task-btn" onClick={() => completeTask(task.id)}>✓</button>
+                      )}
+                      <button className="delete-task-btn" onClick={() => deleteTask(task.id)}>🗑️</button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            
+            <button className="level-up-btn" onClick={() => levelUp('tasks')}>
               Level Up! 🚀
             </button>
           </div>

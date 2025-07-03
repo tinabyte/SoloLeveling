@@ -1,7 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 
 function App() {
+  const [theme, setTheme] = useState(() => {
+    return localStorage.getItem('theme') || 'light';
+  });
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme(prevTheme => prevTheme === 'light' ? 'dark' : 'light');
+  };
+
   const [stats, setStats] = useState({
     rockClimbing: { level: 1, grade: '5.6', xp: 0, maxXp: 100 },
     internship: { level: 1, progress: 'Getting Started', xp: 0, maxXp: 100 },
@@ -83,6 +96,9 @@ function App() {
       
       <div className="hero-section">
         <div className="hero-content">
+          <button className="theme-toggle" onClick={toggleTheme} title={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}>
+            {theme === 'light' ? '🌙' : '☀️'}
+          </button>
           <h1 className="pixel-title">
             <span className="title-main">SOLO LEVELING</span>
             <span className="title-sub">Personal Growth Journey</span>
